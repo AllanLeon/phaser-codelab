@@ -65,7 +65,9 @@ export default class Play extends Phaser.State {
 	}
 
 	update () {
-		this.game.physics.arcade.overlap(this.player1, this.player2, this.scorePoint, null, this);
+        this.game.physics.arcade.overlap(this.player1, this.player2, this.scorePoint, null, this);
+        this.player1.update();
+        this.player2.update();
 	}
 
 	render() {
