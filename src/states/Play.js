@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../models/Player';
+import TimerDisplayer from '../models/TimerDisplayer';
 import {PlayerTurn} from '../domain/types';
 
 export default class Play extends Phaser.State {
@@ -32,7 +33,9 @@ export default class Play extends Phaser.State {
 		this.score = {
 			player1: 0,
 			player2: 0
-		};
+        };
+        
+        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 10);
 
 		this.resetPositions();
 
@@ -68,6 +71,7 @@ export default class Play extends Phaser.State {
         this.game.physics.arcade.overlap(this.player1, this.player2, this.scorePoint, null, this);
         this.player1.update();
         this.player2.update();
+        this.timer.update();
 	}
 
 	render() {
