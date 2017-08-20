@@ -1,4 +1,5 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
+import {GameState} from '../domain/types';
 
 export default class TimerDisplayer extends Phaser.Text {
 	constructor(game, x, y, limit) {
@@ -6,20 +7,28 @@ export default class TimerDisplayer extends Phaser.Text {
         this.game.add.existing(this);
 
         this.limit = limit;
-        this.countdownTimer = this.game.time.create();
+        this.countdownTimer = this.game.time.create(false);
         this.countdownTimer.add(this.limit, this.endCountdown, this);
         this.countdownTimer.start();
     }
 
     endCountdown() {
+        console.log('Game Over');
         this.countdownTimer.stop();
-        this.text = "GAME OVER";
+        this.game.gameState = GameState.GAME_OVER;
     }
 
     formatTime(s) {
         const minutes = `0${Math.floor(s / 60)}`;
         const seconds = `0${s - minutes * 60}`;
         return `${minutes.substr(-2)}:${seconds.substr(-2)}`;
+    }
+
+    reset() {
+        this.countdownTimer.stop();
+        this.countdownTimer.removeAll();
+        this.countdownTimer.add(this.limit, this.endCountdown, this);
+        this.countdownTimer.start();
     }
 
     update() {
