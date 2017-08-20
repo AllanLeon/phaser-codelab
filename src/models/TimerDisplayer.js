@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import {GameState} from '../domain/types';
+import {GameState, PlayerTurn} from '../domain/types';
 
 export default class TimerDisplayer extends Phaser.Text {
 	constructor(game, x, y, limit) {
@@ -16,6 +16,11 @@ export default class TimerDisplayer extends Phaser.Text {
         console.log('Game Over');
         this.countdownTimer.stop();
         this.game.gameState = GameState.GAME_OVER;
+        if (this.game.currentTurn === PlayerTurn.PLAYER_1) {
+            this.text = 'Player 2 Won!';
+        } else if (this.game.currentTurn === PlayerTurn.PLAYER_2) {
+            this.text = 'Player 1 Won!';
+        }
     }
 
     formatTime(s) {

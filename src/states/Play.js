@@ -29,7 +29,7 @@ export default class Play extends Phaser.State {
 		);
 		this.player2.frame = 0;
 
-		this.currentTurn = PlayerTurn.PLAYER_1;
+		this.game.currentTurn = PlayerTurn.PLAYER_1;
 
 		this.score = {
 			player1: 0,
@@ -54,12 +54,12 @@ export default class Play extends Phaser.State {
 	playerCollision() {
 		this.hasCollided++;
 		if (this.hasCollided % 2 == 0) {
-			if (this.currentTurn == PlayerTurn.PLAYER_1) {
+			if (this.game.currentTurn == PlayerTurn.PLAYER_1) {
 				this.score.player1++;
-				this.currentTurn = PlayerTurn.PLAYER_2;
+				this.game.currentTurn = PlayerTurn.PLAYER_2;
 			} else {
 				this.score.player2++;
-				this.currentTurn = PlayerTurn.PLAYER_1;
+				this.game.currentTurn = PlayerTurn.PLAYER_1;
 			}
 			
 			this.resetPositions();
