@@ -28,11 +28,13 @@ export default class Play extends Phaser.State {
 		this.player2.frame = 0;
 
 		this.currentTurn = PlayerTurn.PLAYER_1;
-
 		this.score = {
 			player1: 0,
 			player2: 0
 		};
+
+		this.obs1 = new Obstacle(this.game, 500, 500, 0.8);
+		this.obs2 = new Obstacle(this.game, 500, 300, 0.8);
 
 		this.resetPositions();
 
