@@ -59,4 +59,22 @@ export default class Player extends Phaser.Sprite {
 		this.body.velocity.x = 0;
 		this.body.velocity.y = 0;
 	}
+
+	update() {
+		if (this.x > this.game.world.width && this.body.velocity.x > 0) {
+			this.x = - this.width;
+		}
+
+		if (this.x <  - this.width && this.body.velocity.x < 0) {
+			this.x = this.game.world.width;
+		}
+
+		if (this.y > this.game.world.height && this.body.velocity.y > 0) {
+			this.y = - this.height;
+		}
+
+		if (this.y < - this.height && this.body.velocity.y < 0) {
+			this.y = this.game.world.height;
+		}
+	}
 }

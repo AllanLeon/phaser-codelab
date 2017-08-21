@@ -1,9 +1,11 @@
 import Phaser from 'phaser';
 import Player from '../models/Player';
-import {PlayerTurn} from '../domain/types';
+import TimerDisplayer from '../models/TimerDisplayer';
+import {PlayerTurn, GameState} from '../domain/types';
 
 export default class Play extends Phaser.State {
 	create () {
+		this.game.gameState = GameState.PLAYING;
 		this.hasCollided = 0;
 		
 		// Add your game content here
@@ -27,11 +29,13 @@ export default class Play extends Phaser.State {
 		);
 		this.player2.frame = 0;
 
-		this.currentTurn = PlayerTurn.PLAYER_1;
+		this.game.currentTurn = PlayerTurn.PLAYER_1;
 		this.score = {
 			player1: 0,
 			player2: 0
-		};
+        };
+        
+        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 10);
 
 		this.obs1 = new Obstacle(this.game, 500, 500, 0.8);
 		this.obs2 = new Obstacle(this.game, 500, 300, 0.8);
@@ -49,25 +53,30 @@ export default class Play extends Phaser.State {
 		this.player2.y = 400;
 	}
 
-	scorePoint() {
+	playerCollision() {
 		this.hasCollided++;
 		if (this.hasCollided % 2 == 0) {
-			if (this.currentTurn == PlayerTurn.PLAYER_1) {
+			if (this.game.currentTurn == PlayerTurn.PLAYER_1) {
 				this.score.player1++;
-				this.currentTurn = PlayerTurn.PLAYER_2;
+				this.game.currentTurn = PlayerTurn.PLAYER_2;
 			} else {
 				this.score.player2++;
-				this.currentTurn = PlayerTurn.PLAYER_1;
+				this.game.currentTurn = PlayerTurn.PLAYER_1;
 			}
 			
 			this.resetPositions();
+			this.timer.reset();
 			console.log(this.score);
-			console.log(this.hasCollided);
 		}
 	}
 
 	update () {
-		this.game.physics.arcade.overlap(this.player1, this.player2, this.scorePoint, null, this);
+		if (this.game.gameState === GameState.PLAYING) {
+			this.game.physics.arcade.overlap(this.player1, this.player2, this.playerCollision, null, this);
+			this.player1.update();
+			this.player2.update();
+			this.timer.update();
+		}
 	}
 
 	render() {
