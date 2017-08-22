@@ -21,6 +21,7 @@ export default class Preloader extends Phaser.State {
 		this.load.spritesheet('goomba', 'assets/images/goomba.png', 100, 100);
 		this.load.image('kitkat', 'assets/images/kitkat.png');
 		this.load.image('bomb', 'assets/images/bomb.png');
+		this.load.audio('boom', 'assets/audio/boom.wav');
 	}
 
 	create () {

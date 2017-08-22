@@ -5,5 +5,6 @@ export const PlayerTurn = {
 
 export const GameState = {
     PLAYING: 'PLAYING',
-    GAME_OVER: 'GAME_OVER'
+    GAME_OVER: 'GAME_OVER',
+    END: 'END'
 };

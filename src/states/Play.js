@@ -40,10 +40,12 @@ export default class Play extends Phaser.State {
 			player2: 0
 		};*/
         
-        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
+        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 5);
 
-		this.obs1 = new Obstacle(this.game, 500, 400, 0.7);
-		this.obs2 = new Obstacle(this.game, 300, 100, 0.7);
+		this.obstacle1 = new Obstacle(this.game, 500, 400, 0.7);
+		this.obstacle2 = new Obstacle(this.game, 300, 100, 0.7);
+
+		this.boomAudio = this.game.add.audio('boom');
 
 		this.resetPositions();
 
@@ -86,19 +88,21 @@ export default class Play extends Phaser.State {
 	update () {
 		if (this.game.gameState === GameState.PLAYING) {
 			this.game.physics.arcade.overlap(this.player1, this.player2, this.playerCollision, null, this);
-			this.game.physics.arcade.collide(this.player1, this.obs1);
-			this.game.physics.arcade.collide(this.player1, this.obs2);
-			this.game.physics.arcade.collide(this.player2, this.obs1);
-			this.game.physics.arcade.collide(this.player2, this.obs2);
+			this.game.physics.arcade.collide(this.player1, this.obstacle1);
+			this.game.physics.arcade.collide(this.player1, this.obstacle2);
+			this.game.physics.arcade.collide(this.player2, this.obstacle1);
+			this.game.physics.arcade.collide(this.player2, this.obstacle2);
 			this.player1.update();
 			this.player2.update();
 			this.timer.update();
 		} else if (this.game.gameState === GameState.GAME_OVER) {
+			this.boomAudio.play();
 			if (this.game.currentTurn === PlayerTurn.PLAYER_1) {
 				this.player1.kill();
 			} else if (this.game.currentTurn === PlayerTurn.PLAYER_2) {
 				this.player2.kill();
 			}
+			this.game.gameState = GameState.END;
 		}
 
 	}
@@ -106,7 +110,7 @@ export default class Play extends Phaser.State {
 	render() {
 		// this.game.debug.body(this.player1);
 		// this.game.debug.body(this.player2);
-		// this.game.debug.body(this.obs1);
-		// this.game.debug.body(this.obs2);	
+		// this.game.debug.body(this.obstacle1);
+		// this.game.debug.body(this.obstacle2);	
 	}
 }
