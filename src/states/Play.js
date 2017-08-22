@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../models/Player';
+import Obstacle from '../models/Obstacle';
 import TimerDisplayer from '../models/TimerDisplayer';
 import {PlayerTurn, GameState} from '../domain/types';
 
@@ -37,8 +38,8 @@ export default class Play extends Phaser.State {
         
         this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 10);
 
-		this.obs1 = new Obstacle(this.game, 500, 500, 0.8);
-		this.obs2 = new Obstacle(this.game, 500, 300, 0.8);
+		this.obs1 = new Obstacle(this.game, 500, 400, 0.7);
+		this.obs2 = new Obstacle(this.game, 300, 100, 0.7);
 
 		this.resetPositions();
 
@@ -73,14 +74,24 @@ export default class Play extends Phaser.State {
 	update () {
 		if (this.game.gameState === GameState.PLAYING) {
 			this.game.physics.arcade.overlap(this.player1, this.player2, this.playerCollision, null, this);
+			this.game.physics.arcade.collide(this.player1, this.obs1);
+			this.game.physics.arcade.collide(this.player1, this.obs2);
+			this.game.physics.arcade.collide(this.player2, this.obs1);
+			this.game.physics.arcade.collide(this.player2, this.obs2);
 			this.player1.update();
 			this.player2.update();
 			this.timer.update();
+		} else if (this.game.gameState === GameState.GAME_OVER) {
+			this.player1.kill();
+			this.player2.kill();
 		}
+
 	}
 
 	render() {
-		this.game.debug.body(this.player1);
-		this.game.debug.body(this.player2);
+		// this.game.debug.body(this.player1);
+		// this.game.debug.body(this.player2);
+		// this.game.debug.body(this.obs1);
+		// this.game.debug.body(this.obs2);
 	}
 }

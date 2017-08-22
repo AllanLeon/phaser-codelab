@@ -6,8 +6,9 @@ export default class Obstacle extends Phaser.Sprite {
 
 		this.scale.setTo(scale, scale);
 
-		this.game.physics.arcade.enable(this);
+		game.physics.arcade.enable(this);
+		this.body.immovable = true;
 
-		this.game.add.existing(this);
+		game.add.existing(this);
 	}
 }

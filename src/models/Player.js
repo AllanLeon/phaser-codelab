@@ -27,16 +27,16 @@ export default class Player extends Phaser.Sprite {
 
 	initializeKeys() {
 		this.upKey.onDown.add(this.moveUp, this);
-		this.upKey.onUp.add(this.moveDown, this);
+		this.upKey.onUp.add(this.stopY, this);
 
 		this.downKey.onDown.add(this.moveDown, this);
-		this.downKey.onUp.add(this.moveUp, this);
+		this.downKey.onUp.add(this.stopY, this);
 
 		this.leftKey.onDown.add(this.moveLeft, this);
-		this.leftKey.onUp.add(this.moveRight, this);
+		this.leftKey.onUp.add(this.stopX, this);
 
 		this.rightKey.onDown.add(this.moveRight, this);
-		this.rightKey.onUp.add(this.moveLeft, this);
+		this.rightKey.onUp.add(this.stopX, this);
 	}
 
 	moveUp() {
@@ -55,8 +55,11 @@ export default class Player extends Phaser.Sprite {
 		this.body.velocity.x += 200;
 	}
 
-	stop() {
+	stopX() {
 		this.body.velocity.x = 0;
+	}
+
+	stopY() {
 		this.body.velocity.y = 0;
 	}
 
