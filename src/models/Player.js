@@ -4,14 +4,14 @@ export default class Player extends Phaser.Sprite {
 	constructor(game, x, y, upKey, downKey, leftKey, rightKey) {
 		super(game, x, y, 'goomba');
 
-		this.setWalkAnimation();
+		this.animations.add('walk', [0, 1], 10, true);
 
 		this.upKey = upKey;
 		this.downKey = downKey;
 		this.leftKey = leftKey;
 		this.rightKey = rightKey;
 
-		this.scale.setTo(0.5, 0.5);
+		this.scale.setTo(1, 1);
 
 		this.game.physics.arcade.enable(this);
 		//////this.body.setCircle(this.width);
@@ -25,10 +25,6 @@ export default class Player extends Phaser.Sprite {
 		this.game.add.existing(this);
 
 		this.initializeKeys();
-	}
-
-	setWalkAnimation() {
-		this.animations.add('walk', [0, 1], 10, true);
 	}
 
 	initializeKeys() {
@@ -79,7 +75,7 @@ export default class Player extends Phaser.Sprite {
 			this.x = - this.width;
 		}
 
-		if (this.x <  - this.width && this.body.velocity.x < 0) {
+		if (this.x < - this.width && this.body.velocity.x < 0) {
 			this.x = this.game.world.width;
 		}
 
