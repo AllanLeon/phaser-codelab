@@ -8,12 +8,15 @@ export default class Play extends Phaser.State {
 	create () {
 		this.game.gameState = GameState.PLAYING;
 		this.hasCollided = 0;
+
+		this.chaserVelocity = 200;
+		this.chasedVelocity = 180;
 		
 		// Add your game content here
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 		
 		this.player1 = new Player(
-			this.game, 100, 400,
+			this.game, 100, 400, this.chaserVelocity,
 			this.game.input.keyboard.addKey(Phaser.Keyboard.W),
 			this.game.input.keyboard.addKey(Phaser.Keyboard.S),
 			this.game.input.keyboard.addKey(Phaser.Keyboard.A),
@@ -22,7 +25,7 @@ export default class Play extends Phaser.State {
 		this.player1.frame = 1;
 
 		this.player2 = new Player(
-			this.game, 800, 400,
+			this.game, 800, 400, this.chasedVelocity,
 			this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
 			this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
 			this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
@@ -62,12 +65,16 @@ export default class Play extends Phaser.State {
 				//this.score.player1++;
 				this.game.currentTurn = PlayerTurn.PLAYER_2;
 				this.player1.hideBomb();
+				this.player1.setVelocity(this.chasedVelocity);
 				this.player2.showBomb();
+				this.player2.setVelocity(this.chaserVelocity);
 			} else {
 				//this.score.player2++;
 				this.game.currentTurn = PlayerTurn.PLAYER_1;
 				this.player1.showBomb();
+				this.player1.setVelocity(this.chaserVelocity);
 				this.player2.hideBomb();
+				this.player2.setVelocity(this.chasedVelocity);
 			}
 			
 			this.resetPositions();
