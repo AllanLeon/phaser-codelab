@@ -20,6 +20,7 @@ export default class Preloader extends Phaser.State {
 		// Load any assets for the game here
 		this.load.spritesheet('goomba', 'assets/images/goomba.png', 100, 100);
 		this.load.image('kitkat', 'assets/images/kitkat.png');
+		this.load.image('bomb', 'assets/images/bomb.png');
 	}
 
 	create () {

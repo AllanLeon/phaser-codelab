@@ -31,19 +31,20 @@ export default class Play extends Phaser.State {
 		this.player2.frame = 0;
 
 		this.game.currentTurn = PlayerTurn.PLAYER_1;
-		this.score = {
+		this.player1.showBomb();
+		/*this.score = {
 			player1: 0,
 			player2: 0
-        };
+		};*/
         
-        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 10);
+        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
 
 		this.obs1 = new Obstacle(this.game, 500, 400, 0.7);
 		this.obs2 = new Obstacle(this.game, 300, 100, 0.7);
 
 		this.resetPositions();
 
-		console.log(this.score);
+		//console.log(this.score);
 	}
 
 	resetPositions() {
@@ -58,16 +59,20 @@ export default class Play extends Phaser.State {
 		this.hasCollided++;
 		if (this.hasCollided % 2 == 0) {
 			if (this.game.currentTurn == PlayerTurn.PLAYER_1) {
-				this.score.player1++;
+				//this.score.player1++;
 				this.game.currentTurn = PlayerTurn.PLAYER_2;
+				this.player1.hideBomb();
+				this.player2.showBomb();
 			} else {
-				this.score.player2++;
+				//this.score.player2++;
 				this.game.currentTurn = PlayerTurn.PLAYER_1;
+				this.player1.showBomb();
+				this.player2.hideBomb();
 			}
 			
 			this.resetPositions();
 			this.timer.reset();
-			console.log(this.score);
+			//console.log(this.score);
 		}
 	}
 
@@ -82,8 +87,11 @@ export default class Play extends Phaser.State {
 			this.player2.update();
 			this.timer.update();
 		} else if (this.game.gameState === GameState.GAME_OVER) {
-			this.player1.kill();
-			this.player2.kill();
+			if (this.game.currentTurn === PlayerTurn.PLAYER_1) {
+				this.player1.kill();
+			} else if (this.game.currentTurn === PlayerTurn.PLAYER_2) {
+				this.player2.kill();
+			}
 		}
 
 	}
@@ -92,6 +100,6 @@ export default class Play extends Phaser.State {
 		// this.game.debug.body(this.player1);
 		// this.game.debug.body(this.player2);
 		// this.game.debug.body(this.obs1);
-		// this.game.debug.body(this.obs2);
+		// this.game.debug.body(this.obs2);	
 	}
 }

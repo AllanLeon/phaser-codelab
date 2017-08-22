@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 export default class Player extends Phaser.Sprite {
 	constructor(game, x, y, upKey, downKey, leftKey, rightKey) {
 		super(game, x, y, 'goomba');
+		this.game.add.existing(this);
 
 		this.animations.add('walk', [0, 1], 10, true);
 
@@ -22,7 +23,9 @@ export default class Player extends Phaser.Sprite {
 		//	(-radius + 0.5 * this.height / this.scale.y)
 		// );
 
-		this.game.add.existing(this);
+		this.bomb = this.game.add.sprite(0, 0, 'bomb');
+		this.addChild(this.bomb);
+		this.hideBomb();
 
 		this.initializeKeys();
 	}
@@ -68,6 +71,14 @@ export default class Player extends Phaser.Sprite {
 
 	stopY() {
 		this.body.velocity.y = 0;
+	}
+
+	hideBomb() {
+		this.bomb.alpha = 0;
+	}
+
+	showBomb() {
+		this.bomb.alpha = 1;
 	}
 
 	update() {
