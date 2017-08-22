@@ -40,7 +40,7 @@ export default class Play extends Phaser.State {
 			player2: 0
 		};*/
         
-        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 5);
+        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
 
 		this.obstacle1 = new Obstacle(this.game, 500, 400, 0.7);
 		this.obstacle2 = new Obstacle(this.game, 300, 100, 0.7);
