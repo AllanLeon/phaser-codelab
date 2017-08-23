@@ -19,16 +19,17 @@ export default class Boot extends Phaser.State {
 	}
 
 	preload () {
-		// Load anything you need for the preloader (e.g. loading bars) here
-		this.load.image('loaderBar', 'assets/images/loader-bar.png')
+	 	// Load anything you need for the game here
+	 	this.load.spritesheet('goomba', 'assets/images/goomba.png', 100, 100);
+		this.load.image('kitkat', 'assets/images/kitkat.png');
+		this.load.image('bomb', 'assets/images/bomb.png');
+		this.load.audio('boom', 'assets/audio/boom.wav');
 	}
 
 	create () {
-		// Set the stage background colour
 		this.game.stage.backgroundColor = '#222'
 
-		// Everything from the preload function will have been loaded into cache by
-		// this point, so we can now start the preloader
-		this.state.start('Preloader')
+		// Start the game
+		this.state.start('Play')
 	}
 }

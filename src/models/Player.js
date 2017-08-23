@@ -17,7 +17,8 @@ export default class Player extends Phaser.Sprite {
 		this.scale.setTo(1, 1);
 
 		this.game.physics.arcade.enable(this);
-		//////this.body.setCircle(this.width);
+		// vv ENHANCEMENT vv (for now, square collider works)
+		// this.body.setCircle(this.width);
 		// var radius = this.width / 2;
 		// this.body.setCircle(
 		//	radius,
@@ -35,44 +36,35 @@ export default class Player extends Phaser.Sprite {
 	initializeKeys() {
 		this.upKey.onDown.add(this.moveUp, this);
 		this.upKey.onUp.add(this.stopY, this);
-
 		this.downKey.onDown.add(this.moveDown, this);
 		this.downKey.onUp.add(this.stopY, this);
-
 		this.leftKey.onDown.add(this.moveLeft, this);
 		this.leftKey.onUp.add(this.stopX, this);
-
 		this.rightKey.onDown.add(this.moveRight, this);
 		this.rightKey.onUp.add(this.stopX, this);
 	}
 
 	moveUp() {
 		this.body.velocity.y -= this.velocity;
-		this.animations.play('walk');
 	}
 	
 	moveDown() {
 		this.body.velocity.y += this.velocity;
-		this.animations.play('walk');
 	}
 
 	moveLeft() {
 		this.body.velocity.x -= this.velocity;
-		this.animations.play('walk');
 	}
 
 	moveRight() {
 		this.body.velocity.x += this.velocity;
-		this.animations.play('walk');
 	}
 
 	stopX() {
 		this.body.velocity.x = 0;
-		this.animations.stop('walk');
 	}
-	
+
 	stopY() {
-		this.animations.stop('walk');
 		this.body.velocity.y = 0;
 	}
 
@@ -89,6 +81,12 @@ export default class Player extends Phaser.Sprite {
 	}
 
 	update() {
+		if (this.upKey.isUp && this.downKey.isUp && this.leftKey.isUp && this.rightKey.isUp)
+			this.animations.stop('walk');
+		else
+			this.animations.play('walk');
+
+		//vv ENHANCEMENT vv (probably collideWorldBounds does the trick)
 		if (this.x > this.game.world.width && this.body.velocity.x > 0) {
 			this.x = - this.width;
 		}
