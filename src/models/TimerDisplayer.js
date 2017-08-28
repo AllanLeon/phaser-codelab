@@ -13,7 +13,6 @@ export default class TimerDisplayer extends Phaser.Text {
     }
 
     endCountdown() {
-        console.log('Game Over');
         this.countdownTimer.stop();
         this.game.gameState = GameState.GAME_OVER;
         if (this.game.currentTurn === PlayerTurn.PLAYER_1) {

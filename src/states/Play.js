@@ -12,7 +12,6 @@ export default class Play extends Phaser.State {
 		this.chaserVelocity = 200;
 		this.chasedVelocity = 180;
 		
-		// Add your game content here
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 		
 		this.player1 = new Player(
@@ -35,10 +34,6 @@ export default class Play extends Phaser.State {
 
 		this.game.currentTurn = PlayerTurn.PLAYER_1;
 		this.player1.showBomb();
-		/*this.score = {
-			player1: 0,
-			player2: 0
-		};*/
         
         this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
 
@@ -48,8 +43,6 @@ export default class Play extends Phaser.State {
 		this.boomAudio = this.game.add.audio('boom');
 
 		this.resetPositions();
-
-		//console.log(this.score);
 	}
 
 	resetPositions() {
@@ -64,14 +57,12 @@ export default class Play extends Phaser.State {
 		this.hasCollided++;
 		if (this.hasCollided % 2 == 0) {
 			if (this.game.currentTurn == PlayerTurn.PLAYER_1) {
-				//this.score.player1++;
 				this.game.currentTurn = PlayerTurn.PLAYER_2;
 				this.player1.hideBomb();
 				this.player1.setVelocity(this.chasedVelocity);
 				this.player2.showBomb();
 				this.player2.setVelocity(this.chaserVelocity);
 			} else {
-				//this.score.player2++;
 				this.game.currentTurn = PlayerTurn.PLAYER_1;
 				this.player1.showBomb();
 				this.player1.setVelocity(this.chaserVelocity);
@@ -81,7 +72,6 @@ export default class Play extends Phaser.State {
 			
 			this.resetPositions();
 			this.timer.reset();
-			//console.log(this.score);
 		}
 	}
 
@@ -104,13 +94,5 @@ export default class Play extends Phaser.State {
 			}
 			this.game.gameState = GameState.END;
 		}
-
-	}
-
-	render() {
-		// this.game.debug.body(this.player1);
-		// this.game.debug.body(this.player2);
-		// this.game.debug.body(this.obstacle1);
-		// this.game.debug.body(this.obstacle2);	
 	}
 }

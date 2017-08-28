@@ -17,14 +17,6 @@ export default class Player extends Phaser.Sprite {
 		this.scale.setTo(1, 1);
 
 		this.game.physics.arcade.enable(this);
-		// vv ENHANCEMENT vv (for now, square collider works)
-		// this.body.setCircle(this.width);
-		// var radius = this.width / 2;
-		// this.body.setCircle(
-		//	radius,
-		//	(-radius + 0.5 * this.width  / this.scale.x),
-		//	(-radius + 0.5 * this.height / this.scale.y)
-		// );
 
 		this.bomb = this.game.add.sprite(0, 0, 'bomb');
 		this.addChild(this.bomb);
