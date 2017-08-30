@@ -5,16 +5,16 @@ import TimerDisplayer from '../models/TimerDisplayer';
 import {PlayerTurn, GameState} from '../domain/types';
 
 export default class Play extends Phaser.State {
+	init() {
+		// Initialize scene
+		this.physics.startSystem(Phaser.Physics.ARCADE);
+	}
+
 	create () {
-		this.game.gameState = GameState.PLAYING;
-		this.physics.startSystem(Phaser.Physics.ARCADE);		
+		// Initialize game objects
 	}
 
 	update () {
-		if (this.game.gameState === GameState.PLAYING) {
-			// Update game objects
-		} else if (this.game.gameState === GameState.GAME_OVER) {
-			this.game.gameState = GameState.END;
-		}
+		// Update game objects
 	}
 }
