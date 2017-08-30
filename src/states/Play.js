@@ -5,7 +5,7 @@ import TimerDisplayer from '../models/TimerDisplayer';
 import {PlayerTurn, GameState} from '../domain/types';
 
 export default class Play extends Phaser.State {
-	create () {
+	init() {
 		this.game.gameState = GameState.PLAYING;
 		this.hasCollided = 0;
 
@@ -13,7 +13,9 @@ export default class Play extends Phaser.State {
 		this.chasedVelocity = 180;
 		
 		this.physics.startSystem(Phaser.Physics.ARCADE);
-		
+	}
+
+	create () {
 		this.player1 = new Player(
 			this.game, 100, 400, this.chaserVelocity,
 			this.game.input.keyboard.addKey(Phaser.Keyboard.W),
