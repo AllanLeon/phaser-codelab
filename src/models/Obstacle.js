@@ -1,5 +1,1 @@
-import Phaser from 'phaser'
-
-export default class Obstacle extends Phaser.Sprite {
-	
-}
+import Phaser from 'phaser';

@@ -1,8 +1,1 @@
-import Phaser from 'phaser'
-
-export default class Player extends Phaser.Sprite {
-
-	update() {
-		
-	}
-}
+import Phaser from 'phaser';

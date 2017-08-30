@@ -12,7 +12,7 @@ export default class Play extends Phaser.State {
 
 	update () {
 		if (this.game.gameState === GameState.PLAYING) {
-
+			// Update game objects
 		} else if (this.game.gameState === GameState.GAME_OVER) {
 			this.game.gameState = GameState.END;
 		}
