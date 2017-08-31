@@ -1,8 +1,4 @@
 import Phaser from 'phaser';
-import Player from '../models/Player';
-import Obstacle from '../models/Obstacle';
-import TimerDisplayer from '../models/TimerDisplayer';
-import {PlayerTurn, GameState} from '../domain/types';
 
 export default class Play extends Phaser.State {
 	init() {
