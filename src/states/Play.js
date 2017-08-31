@@ -1,8 +1,5 @@
 import Phaser from 'phaser';
 import Player from '../models/Player';
-import Obstacle from '../models/Obstacle';
-import TimerDisplayer from '../models/TimerDisplayer';
-import {PlayerTurn, GameState} from '../domain/types';
 
 export default class Play extends Phaser.State {
 	init() {
@@ -12,9 +9,17 @@ export default class Play extends Phaser.State {
 
 	create () {
 		// Initialize game objects
+		this.player1 = new Player(
+			this.game, 100, 400, 400,
+			this.game.input.keyboard.addKey(Phaser.Keyboard.W),
+			this.game.input.keyboard.addKey(Phaser.Keyboard.S),
+			this.game.input.keyboard.addKey(Phaser.Keyboard.A),
+			this.game.input.keyboard.addKey(Phaser.Keyboard.D)
+		);
 	}
 
 	update () {
 		// Update game objects
+		this.player1.update();
 	}
 }
