@@ -23,7 +23,6 @@ export default class Play extends Phaser.State {
 			this.game.input.keyboard.addKey(Phaser.Keyboard.A),
 			this.game.input.keyboard.addKey(Phaser.Keyboard.D)
 		);
-		this.player1.frame = 1;
 
 		this.player2 = new Player(
 			this.game, 800, 400, this.chasedVelocity,
@@ -32,12 +31,11 @@ export default class Play extends Phaser.State {
 			this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
 			this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
 		);
-		this.player2.frame = 0;
 
 		this.game.currentTurn = PlayerTurn.PLAYER_1;
 		this.player1.showBomb();
-        
-        this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
+
+		this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
 
 		this.obstacle1 = new Obstacle(this.game, 500, 400, 0.7);
 		this.obstacle2 = new Obstacle(this.game, 300, 100, 0.7);

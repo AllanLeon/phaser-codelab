@@ -1,28 +1,26 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 
 export default class Player extends Phaser.Sprite {
 	constructor(game, x, y, velocity, upKey, downKey, leftKey, rightKey) {
 		super(game, x, y, 'goomba');
 		this.game.add.existing(this);
 
-		this.animations.add('walk', [0, 1], 10, true);
-
 		this.velocity = velocity;
+		this.game.physics.arcade.enable(this);
+		this.body.collideWorldBounds = true;
 
 		this.upKey = upKey;
 		this.downKey = downKey;
 		this.leftKey = leftKey;
 		this.rightKey = rightKey;
 
-		this.scale.setTo(1, 1);
+		this.initializeKeys();
 
-		this.game.physics.arcade.enable(this);
+		this.animations.add('walk', [0, 1], 10, true);
 
 		this.bomb = this.game.add.sprite(0, 0, 'bomb');
 		this.addChild(this.bomb);
 		this.hideBomb();
-
-		this.initializeKeys();
 	}
 
 	initializeKeys() {
@@ -73,10 +71,11 @@ export default class Player extends Phaser.Sprite {
 	}
 
 	update() {
-		if (this.upKey.isUp && this.downKey.isUp && this.leftKey.isUp && this.rightKey.isUp)
+		if (this.upKey.isUp && this.downKey.isUp && this.leftKey.isUp && this.rightKey.isUp) {
 			this.animations.stop('walk');
-		else
+		} else {
 			this.animations.play('walk');
+		}
 
 		//vv ENHANCEMENT vv (probably collideWorldBounds does the trick)
 		if (this.x > this.game.world.width && this.body.velocity.x > 0) {

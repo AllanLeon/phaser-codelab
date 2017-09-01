@@ -1,4 +1,4 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 
 export default class Obstacle extends Phaser.Sprite {
 	constructor(game, x, y, scale) {
