@@ -1,30 +1,29 @@
 import Phaser from 'phaser';
 
 export default class Player extends Phaser.Sprite {
-    constructor(game, x, y, velocity, upKey, downKey, leftKey, rightKey) {
+	constructor(game, x, y, velocity, upKey, downKey, leftKey, rightKey) {
 		super(game, x, y, 'goomba');
 		this.game.add.existing(this);
 
 		this.velocity = velocity;
-        this.game.physics.arcade.enable(this);
-        this.body.collideWorldBounds=true;
-        
-        this.upKey = upKey;
-        this.downKey = downKey;
-        this.leftKey = leftKey;
-        this.rightKey = rightKey;
-        
-        this.initializeKeys();
+		this.game.physics.arcade.enable(this);
+		this.body.collideWorldBounds = true;
+		
+		this.upKey = upKey;
+		this.downKey = downKey;
+		this.leftKey = leftKey;
+		this.rightKey = rightKey;
+		
+		this.initializeKeys();
 
 		this.animations.add('walk', [0, 1], 10, true);
 
 		/*this.bomb = this.game.add.sprite(0, 0, 'bomb');
 		this.addChild(this.bomb);
 		this.hideBomb();*/
+	}
 
-    }
-
-    initializeKeys() {
+	initializeKeys() {
 		this.upKey.onDown.add(this.moveUp, this);
 		this.upKey.onUp.add(this.stopY, this);
 		this.downKey.onDown.add(this.moveDown, this);
@@ -34,8 +33,8 @@ export default class Player extends Phaser.Sprite {
 		this.rightKey.onDown.add(this.moveRight, this);
 		this.rightKey.onUp.add(this.stopX, this);
 	}
-    
-    moveUp() {
+	
+	moveUp() {
 		this.body.velocity.y -= this.velocity;
 	}
 	
@@ -57,9 +56,9 @@ export default class Player extends Phaser.Sprite {
 
 	stopY() {
 		this.body.velocity.y = 0;
-    }
-    
-    /*hideBomb() {
+	}
+	
+	/*hideBomb() {
 		this.bomb.alpha = 0;
 	}
 
@@ -74,9 +73,9 @@ export default class Player extends Phaser.Sprite {
 	update() {
 		if (this.body.velocity.y === 0 && this.body.velocity.x === 0) {
 			this.animations.stop('walk');
-        } else {
-            this.animations.play('walk');
-        }
+		} else {
+			this.animations.play('walk');
+		}
 
 		//vv ENHANCEMENT vv (probably collideWorldBounds does the trick)
 		/*if (this.x > this.game.world.width && this.body.velocity.x > 0) {
@@ -93,6 +92,6 @@ export default class Player extends Phaser.Sprite {
 
 		if (this.y < - this.height && this.body.velocity.y < 0) {
 			this.y = this.game.world.height;
-        }*/
-    }
+		}*/
+	}
 }
