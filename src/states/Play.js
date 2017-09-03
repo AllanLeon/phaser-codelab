@@ -1,11 +1,15 @@
 import Phaser from 'phaser';
 import Player from '../models/Player';
 import {PlayerTurn} from '../domain/types';
+import TimerDisplayer from '../models/TimerDisplayer';
+import {GameState} from '../domain/types';
 
 export default class Play extends Phaser.State {
 	init() {
 		// Initialize scene
 		this.physics.startSystem(Phaser.Physics.ARCADE);
+
+		this.game.gameState = GameState.PLAYING;
 	}
 
 	create () {
@@ -28,6 +32,8 @@ export default class Play extends Phaser.State {
 
 		this.game.currentTurn = PlayerTurn.PLAYER_1;
 		this.player1.showBomb();
+
+		this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
 	}
 
 	resetPlayerPositions() {
@@ -53,10 +59,20 @@ export default class Play extends Phaser.State {
 			this.player1.showBomb();
 			this.player2.hideBomb();
 		}
+		this.timer.reset();
 	}
 
 	update () {
 		// Update game objects
-		this.game.physics.arcade.collide(this.player1, this.player2, this.handleCollisionBetweenPlayers, null, this);
+		if (this.game.gameState === GameState.PLAYING) {
+			this.game.physics.arcade.collide(this.player1, this.player2, this.handleCollisionBetweenPlayers, null, this);
+		} else if (this.game.gameState === GameState.GAME_OVER) {
+			if (this.game.currentTurn === PlayerTurn.PLAYER_1) {
+				this.player1.kill();
+			} else if (this.game.currentTurn === PlayerTurn.PLAYER_2) {
+				this.player2.kill();
+			}
+			this.game.gameState = GameState.END;
+		}
 	}
 }
