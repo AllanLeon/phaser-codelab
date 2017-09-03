@@ -3,6 +3,7 @@ import Player from '../models/Player';
 import {PlayerTurn} from '../domain/types';
 import TimerDisplayer from '../models/TimerDisplayer';
 import {GameState} from '../domain/types';
+import Obstacle from '../models/Obstacle';
 
 export default class Play extends Phaser.State {
 	init() {
@@ -34,6 +35,9 @@ export default class Play extends Phaser.State {
 		this.player1.showBomb();
 
 		this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
+		this.obstacles = this.game.add.group();
+		this.obstacles.add(new Obstacle(this.game, 800, 300, 0.6));
+		this.obstacles.add(new Obstacle(this.game, 250, 150, 0.6));
 	}
 
 	resetPlayerPositions() {
@@ -74,5 +78,7 @@ export default class Play extends Phaser.State {
 			}
 			this.game.gameState = GameState.END;
 		}
+		this.game.physics.arcade.collide(this.player1, this.obstacles);
+		this.game.physics.arcade.collide(this.player2, this.obstacles);
 	}
 }

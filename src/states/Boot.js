@@ -11,6 +11,7 @@ export default class Boot extends Phaser.State {
 		 this.load.spritesheet('goomba', 'assets/images/goomba.png', 100, 100);
 		 this.load.image('bomb', 'assets/images/bomb.png');
 		 this.load.audio('boom', 'assets/audio/boom.wav');
+		 this.load.image('kitkat', 'assets/images/kitkat.png');
 	}
 
 	create () {
