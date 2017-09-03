@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../models/Player';
+import {PlayerTurn} from '../domain/types';
 
 export default class Play extends Phaser.State {
 	init() {
@@ -25,7 +26,8 @@ export default class Play extends Phaser.State {
 			this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
 		);
 
-		this.counter = 0;
+		this.game.currentTurn = PlayerTurn.PLAYER_1;
+		this.player1.showBomb();
 	}
 
 	resetPlayerPositions() {
@@ -42,6 +44,15 @@ export default class Play extends Phaser.State {
 
 	handleCollisionBetweenPlayers() {
 		this.resetPlayerPositions();
+		if (this.game.currentTurn == PlayerTurn.PLAYER_1) {
+			this.game.currentTurn = PlayerTurn.PLAYER_2;
+			this.player1.hideBomb();
+			this.player2.showBomb();
+		} else {
+			this.game.currentTurn = PlayerTurn.PLAYER_1;
+			this.player1.showBomb();
+			this.player2.hideBomb();
+		}
 	}
 
 	update () {

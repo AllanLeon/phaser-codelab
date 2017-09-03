@@ -18,10 +18,9 @@ export default class Player extends Phaser.Sprite {
 
 		this.animations.add('walk', [0, 1], 10, true);
 
-		/*this.bomb = this.game.add.sprite(0, 0, 'bomb');
+		this.bomb = this.game.add.sprite(0, 0, 'bomb');
 		this.addChild(this.bomb);
-		this.hideBomb();*/
-
+		this.hideBomb();
     }
 
     initializeKeys() {
@@ -59,7 +58,7 @@ export default class Player extends Phaser.Sprite {
 		this.body.velocity.y = 0;
     }
     
-    /*hideBomb() {
+    hideBomb() {
 		this.bomb.alpha = 0;
 	}
 
@@ -67,7 +66,7 @@ export default class Player extends Phaser.Sprite {
 		this.bomb.alpha = 1;
 	}
 
-	setVelocity(velocity) {
+	/*setVelocity(velocity) {
 		this.velocity = velocity;
 	}*/
 
