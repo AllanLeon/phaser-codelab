@@ -9,7 +9,6 @@ export default class Play extends Phaser.State {
 		// Initialize scene
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 		this.game.gameState = GameState.PLAYING;
-		this.hasCollided = 0;
 
 		this.chaserVelocity = 200;
 		this.chasedVelocity = 180;
@@ -56,25 +55,22 @@ export default class Play extends Phaser.State {
 	}
 
 	handleCollisionBetweenPlayers() {
-		this.hasCollided++;
-		if (this.hasCollided % 2 == 0) {
-			if (this.game.currentTurn == PlayerTurn.PLAYER_1) {
-				this.game.currentTurn = PlayerTurn.PLAYER_2;
-				this.player1.hideBomb();
-				this.player1.setVelocity(this.chasedVelocity);
-				this.player2.showBomb();
-				this.player2.setVelocity(this.chaserVelocity);
-			} else {
-				this.game.currentTurn = PlayerTurn.PLAYER_1;
-				this.player1.showBomb();
-				this.player1.setVelocity(this.chaserVelocity);
-				this.player2.hideBomb();
-				this.player2.setVelocity(this.chasedVelocity);
-			}
-			
-			this.resetPlayerPositions();
-			this.timer.reset();
+		if (this.game.currentTurn == PlayerTurn.PLAYER_1) {
+			this.game.currentTurn = PlayerTurn.PLAYER_2;
+			this.player1.hideBomb();
+			this.player1.setVelocity(this.chasedVelocity);
+			this.player2.showBomb();
+			this.player2.setVelocity(this.chaserVelocity);
+		} else {
+			this.game.currentTurn = PlayerTurn.PLAYER_1;
+			this.player1.showBomb();
+			this.player1.setVelocity(this.chaserVelocity);
+			this.player2.hideBomb();
+			this.player2.setVelocity(this.chasedVelocity);
 		}
+			
+		this.resetPlayerPositions();
+		this.timer.reset();
 	}
 
 	update () {
