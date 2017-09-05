@@ -25,7 +25,7 @@ export default class Play extends Phaser.State {
 		);
 
 		this.player2 = new Player(
-			this.game, 800, 400, this.chasedVelocity,
+			this.game, 1100, 100, this.chasedVelocity,
 			this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
 			this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
 			this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
@@ -41,19 +41,21 @@ export default class Play extends Phaser.State {
 		this.obstacle2 = new Obstacle(this.game, 300, 100, 0.7);
 
 		this.boomAudio = this.game.add.audio('boom');
-
-		this.resetPositions();
 	}
 
-	resetPositions() {
+	resetPlayerPositions() {
 		this.player1.x = 100;
 		this.player1.y = 400;
+		this.player1.body.velocity.x = 0;
+		this.player1.body.velocity.y = 0;
 
-		this.player2.x = 800;
-		this.player2.y = 400;
+		this.player2.x = 1100;
+		this.player2.y = 100;
+		this.player2.body.velocity.x = 0;
+		this.player2.body.velocity.y = 0;
 	}
 
-	playerCollision() {
+	handleCollisionBetweenPlayers() {
 		this.hasCollided++;
 		if (this.hasCollided % 2 == 0) {
 			if (this.game.currentTurn == PlayerTurn.PLAYER_1) {
@@ -70,14 +72,14 @@ export default class Play extends Phaser.State {
 				this.player2.setVelocity(this.chasedVelocity);
 			}
 			
-			this.resetPositions();
+			this.resetPlayerPositions();
 			this.timer.reset();
 		}
 	}
 
 	update () {
 		if (this.game.gameState === GameState.PLAYING) {
-			this.game.physics.arcade.overlap(this.player1, this.player2, this.playerCollision, null, this);
+			this.game.physics.arcade.overlap(this.player1, this.player2, this.handleCollisionBetweenPlayers, null, this);
 			this.game.physics.arcade.collide(this.player1, this.obstacle1);
 			this.game.physics.arcade.collide(this.player1, this.obstacle2);
 			this.game.physics.arcade.collide(this.player2, this.obstacle1);
