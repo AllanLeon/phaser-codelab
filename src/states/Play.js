@@ -1,21 +1,22 @@
 import Phaser from 'phaser';
 import Player from '../models/Player';
-import Obstacle from '../models/Obstacle';
 import TimerDisplayer from '../models/TimerDisplayer';
 import {PlayerTurn, GameState} from '../domain/types';
+import Obstacle from '../models/Obstacle';
 
 export default class Play extends Phaser.State {
 	init() {
+		// Initialize scene
+		this.physics.startSystem(Phaser.Physics.ARCADE);
 		this.game.gameState = GameState.PLAYING;
 		this.hasCollided = 0;
 
 		this.chaserVelocity = 200;
 		this.chasedVelocity = 180;
-		
-		this.physics.startSystem(Phaser.Physics.ARCADE);
 	}
 
 	create () {
+		// Initialize game objects
 		this.player1 = new Player(
 			this.game, 100, 400, this.chaserVelocity,
 			this.game.input.keyboard.addKey(Phaser.Keyboard.W),
@@ -37,10 +38,9 @@ export default class Play extends Phaser.State {
 
 		this.timer = new TimerDisplayer(this.game, 0, 0, Phaser.Timer.SECOND * 20);
 
-		this.obstacle1 = new Obstacle(this.game, 500, 400, 0.7);
-		this.obstacle2 = new Obstacle(this.game, 300, 100, 0.7);
-
-		this.boomAudio = this.game.add.audio('boom');
+		this.obstacles = this.game.add.group();
+		this.obstacles.add(new Obstacle(this.game, 800, 300, 0.6));
+		this.obstacles.add(new Obstacle(this.game, 250, 150, 0.6));
 	}
 
 	resetPlayerPositions() {
@@ -78,17 +78,12 @@ export default class Play extends Phaser.State {
 	}
 
 	update () {
+		// Update game objects
 		if (this.game.gameState === GameState.PLAYING) {
-			this.game.physics.arcade.overlap(this.player1, this.player2, this.handleCollisionBetweenPlayers, null, this);
-			this.game.physics.arcade.collide(this.player1, this.obstacle1);
-			this.game.physics.arcade.collide(this.player1, this.obstacle2);
-			this.game.physics.arcade.collide(this.player2, this.obstacle1);
-			this.game.physics.arcade.collide(this.player2, this.obstacle2);
-			this.player1.update();
-			this.player2.update();
-			this.timer.update();
+			this.game.physics.arcade.collide(this.player1, this.player2, this.handleCollisionBetweenPlayers, null, this);
+			this.game.physics.arcade.collide(this.player1, this.obstacles);
+			this.game.physics.arcade.collide(this.player2, this.obstacles);
 		} else if (this.game.gameState === GameState.GAME_OVER) {
-			this.boomAudio.play();
 			if (this.game.currentTurn === PlayerTurn.PLAYER_1) {
 				this.player1.kill();
 			} else if (this.game.currentTurn === PlayerTurn.PLAYER_2) {

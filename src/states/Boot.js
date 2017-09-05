@@ -9,9 +9,9 @@ export default class Boot extends Phaser.State {
 	preload () {
 		// Load anything you need for the game here
 		this.load.spritesheet('goomba', 'assets/images/goomba.png', 100, 100);
-		this.load.image('kitkat', 'assets/images/kitkat.png');
 		this.load.image('bomb', 'assets/images/bomb.png');
 		this.load.audio('boom', 'assets/audio/boom.wav');
+		this.load.image('kitkat', 'assets/images/kitkat.png');
 	}
 
 	create () {

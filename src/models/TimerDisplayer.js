@@ -10,6 +10,8 @@ export default class TimerDisplayer extends Phaser.Text {
 		this.countdownTimer = this.game.time.create(false);
 		this.countdownTimer.add(this.limit, this.endCountdown, this);
 		this.countdownTimer.start();
+
+		this.boomAudio = this.game.add.audio('boom');
 	}
 
 	endCountdown() {
@@ -20,6 +22,8 @@ export default class TimerDisplayer extends Phaser.Text {
 		} else if (this.game.currentTurn === PlayerTurn.PLAYER_2) {
 			this.text = 'Player 1 Won!';
 		}
+
+		this.boomAudio.play();
 	}
 
 	formatTime(s) {

@@ -66,6 +66,10 @@ export default class Player extends Phaser.Sprite {
 		this.bomb.alpha = 1;
 	}
 
+	setVelocity(velocity) {
+		this.velocity = velocity;
+	}
+
 	update() {
 		if (this.upKey.isUp && this.downKey.isUp && this.leftKey.isUp && this.rightKey.isUp) {
 			this.animations.stop('walk');
